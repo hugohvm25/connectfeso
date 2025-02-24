@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1084767202701",
+    "project_id": "projeto-5ea01",
+    "storage_bucket": "projeto-5ea01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084767202701:android:75479b87cb9d7956b261c4",
+        "android_client_info": {
+          "package_name": "com.example.connectfeso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084767202701-pjp946rq7tbm5hplechn6dotfcve5iqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.connectfeso",
+            "certificate_hash": "6ab0a9f6c83ca54686579ce2c1c79562b91c5871"
+          }
+        },
+        {
+          "client_id": "1084767202701-5fkagh3fju7kt3o84il8jb3f3sv93e8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBACOwzZVsRZp5fQokvMUYGBHFXN5Eg6fM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084767202701-5fkagh3fju7kt3o84il8jb3f3sv93e8e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1084767202701-6jk545a1ee2glu8l6fe6fp5phfvctmpv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.connectfeso"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
