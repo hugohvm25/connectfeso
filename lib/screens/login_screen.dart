@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'register_screen.dart'; // Importe a tela de cadastro
 import 'home_screen.dart'; // Importa a HomeScreen para a navegação
 
 class LoginScreen extends StatefulWidget {
@@ -14,7 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Método para login com email e senha
   Future<void> _loginWithEmail() async {
     try {
       if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Método para login com Google
   Future<void> _loginWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -78,32 +77,66 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,  // Impede que o teclado empurre os widgets
       appBar: AppBar(title: Text('Login')),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'E-mail'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Senha'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _loginWithEmail,
-              child: Text('Login com Email'),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _loginWithGoogle,
-              child: Text('Login com Google'),
-            ),
-          ],
-        ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(40),
+          child: Column(
+            children: [
+              SizedBox(height: 150),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'E-mail'),
+              ),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Senha'),
+                obscureText: true,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _loginWithEmail,
+                child: Text('Entrar'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Não possui cadastro?"),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      );
+                    },
+                    child: Text(
+                      "Clique aqui",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+
+              ElevatedButton(
+                onPressed: _loginWithGoogle,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Ajuste do espaçamento interno
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min, // Ajusta o tamanho para o conteúdo
+                  children: [
+                    Image.asset(
+                      'assets/google.png', // Caminho da imagem
+                      height: 24, // Altura da imagem
+                    ),
+                    SizedBox(width: 10), // Espaço entre a imagem e o texto
+                    Text('Entrar com Google'),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
       ),
     );
   }
