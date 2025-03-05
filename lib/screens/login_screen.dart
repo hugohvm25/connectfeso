@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'register_screen.dart'; // Importe a tela de cadastro
 import 'home_screen.dart'; // Importa a HomeScreen para a navegação
+import 'resetpass_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -98,10 +100,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _loginWithEmail,
                 child: Text('Entrar'),
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Não possui cadastro?"),
+                  Text("Esqueceu a senha?"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ResetPassScreen()),
+                        );
+                      },
+                    child: Text("Esqueceu a senha?", style: TextStyle(color: Colors.blue)),
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Cadastre-se"),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -110,12 +129,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      "Clique aqui",
+                      "aqui",
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ],
               ),
+
+
+              // BOTÃO DE LOGIN COM GOOGLE
 
               ElevatedButton(
                 onPressed: _loginWithGoogle,

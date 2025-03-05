@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Turismo Virtual"),
+        title: Text("Connect Feso"),
         actions: [
           IconButton(
             icon: Icon(Icons.exit_to_app),
