@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       if (_emailController.text.trim().isEmpty ||
           _passwordController.text.trim().isEmpty) {
-        _showSnackBar('Por favor, preencha todos os campos.');
+        _showAlertDialog('Por favor, preencha todos os campos.');
         return;
       }
 
@@ -33,13 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text.trim(),
       );
 
-      _showSnackBar('Login bem-sucedido!');
+      _showAlertDialog('Login bem-sucedido!');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      _showSnackBar('Erro ao fazer login: $e');
+      _showAlertDialog('Erro ao fazer login: $e');
     }
   }
 
@@ -57,22 +57,42 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await _auth.signInWithCredential(credential);
-      _showSnackBar('Login com Google bem-sucedido!');
+      _showAlertDialog('Login com Google bem-sucedido!');
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      _showSnackBar('Erro ao fazer login com Google: $e');
+      _showAlertDialog('Erro ao fazer login com Google: $e');
     }
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+  // void _showAlertDialog(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(content: Text(message)),
+  //   );
+  // }
+  void _showAlertDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Alerta"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Fechar"),
+            ),
+          ],
+        );
+      },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
