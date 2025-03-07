@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Meu App',
+      title: 'Connect Feso',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: SplashScreen(), // Define a Splash Screen como a primeira tela
     );

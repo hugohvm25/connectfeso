@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'register_screen.dart'; // Importe a tela de cadastro
-import 'home_screen.dart'; // Importa a HomeScreen para a navegação
+import 'package:flutter_svg/flutter_svg.dart';
+import 'register_screen.dart';
+import 'home_screen.dart';
 import 'resetpass_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -16,13 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true; // Para alternar a visibilidade da senha
 
   Future<void> _loginWithEmail() async {
     try {
-      if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Por favor, preencha todos os campos.')),
-        );
+      if (_emailController.text.trim().isEmpty ||
+          _passwordController.text.trim().isEmpty) {
+        _showSnackBar('Por favor, preencha todos os campos.');
         return;
       }
 
@@ -31,26 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text.trim(),
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login bem-sucedido!')),
-      );
-
-      // Navega para a HomeScreen após o login
+      _showSnackBar('Login bem-sucedido!');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao fazer login: $e')),
-      );
+      _showSnackBar('Erro ao fazer login: $e');
     }
   }
 
   Future<void> _loginWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+      await googleUser?.authentication;
 
       if (googleAuth == null) return;
 
@@ -60,67 +57,79 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await _auth.signInWithCredential(credential);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login com Google bem-sucedido!')),
-      );
+      _showSnackBar('Login com Google bem-sucedido!');
 
-      // Navega para a HomeScreen após o login com Google
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao fazer login com Google: $e')),
-      );
+      _showSnackBar('Erro ao fazer login com Google: $e');
     }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,  // Impede que o teclado empurre os widgets
-      appBar: AppBar(title: Text('Login')),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(40),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 150),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'E-mail'),
+              // Logo
+              Image.asset(
+                'assets/connectfeso.png',
+                height: 100,
               ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Senha'),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _loginWithEmail,
-                child: Text('Entrar'),
-              ),
+              SizedBox(height: 10),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Esqueceu a senha?"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ResetPassScreen()),
-                        );
-                      },
-                    child: Text("Esqueceu a senha?", style: TextStyle(color: Colors.blue)),
+              // Campo de e-mail
+              _buildTextField("E-mail", _emailController),
+              SizedBox(height: 10),
+
+              // Campo de senha
+              _buildTextField(
+                "Senha",
+                _passwordController,
+                isPassword: true,
+              ),
+              SizedBox(height: 0),
+
+              // Esqueceu a senha
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ResetPassScreen()),
+                    );
+                  },
+                  child: Text(
+                    "Esqueceu a senha?",
+                    style: TextStyle(color: Color(0xFF006B64)),
                   ),
-                ],
+                ),
               ),
+              SizedBox(height: 0),
 
+              // Botão de Login
+              _buildLoginButton("Entrar", _loginWithEmail),
+              SizedBox(height: 10),
+
+              // Cadastro
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Cadastre-se"),
+                  Text("Não tem uma conta? "),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -129,36 +138,99 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                     child: Text(
-                      "aqui",
-                      style: TextStyle(color: Colors.blue),
+                      "Cadastre-se",
+                      style: TextStyle(
+                          color: Color(0xFF006B64),
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 10),
 
-
-              // BOTÃO DE LOGIN COM GOOGLE
-
-              ElevatedButton(
-                onPressed: _loginWithGoogle,
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Ajuste do espaçamento interno
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min, // Ajusta o tamanho para o conteúdo
-                  children: [
-                    Image.asset(
-                      'assets/google.png', // Caminho da imagem
-                      height: 24, // Altura da imagem
-                    ),
-                    SizedBox(width: 10), // Espaço entre a imagem e o texto
-                    Text('Entrar com Google'),
-                  ],
-                ),
-              ),
-
+              // Login com Google
+              _buildGoogleLoginButton(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(String hint, TextEditingController controller,
+      {bool isPassword = false}) {
+    return TextField(
+      controller: controller,
+      obscureText: isPassword ? _obscurePassword : false,
+      decoration: InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Colors.grey.shade400),
+        ),
+        suffixIcon: isPassword
+            ? IconButton(
+          icon: Icon(
+            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+            color: Colors.grey,
+          ),
+          onPressed: () {
+            setState(() {
+              _obscurePassword = !_obscurePassword;
+            });
+          },
+        )
+            : null,
+      ),
+    );
+  }
+
+  Widget _buildLoginButton(String text, VoidCallback onPressed) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFF006B64),
+        minimumSize: Size(double.infinity, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 16, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildGoogleLoginButton() {
+    return ElevatedButton(
+      onPressed: _loginWithGoogle,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        elevation: 2,
+        minimumSize: Size(double.infinity, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: Colors.grey.shade400),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/google.svg',
+            height: 24,
+            width: 24,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'Entrar com Google',
+            style: TextStyle(color: Colors.black),
+          ),
+        ],
       ),
     );
   }
