@@ -68,11 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // void _showAlertDialog(String message) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text(message)),
-  //   );
-  // }
   void _showAlertDialog(String message) {
     showDialog(
       context: context,
@@ -177,6 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+  // caixa de texto
   Widget _buildTextField(String hint, TextEditingController controller,
       {bool isPassword = false}) {
     return TextField(
@@ -208,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // botão verde
   Widget _buildLoginButton(String text, VoidCallback onPressed) {
     return ElevatedButton(
       onPressed: onPressed,
@@ -225,6 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+  // botão do google
   Widget _buildGoogleLoginButton() {
     return ElevatedButton(
       onPressed: _loginWithGoogle,
