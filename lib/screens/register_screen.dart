@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -23,10 +25,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       await userCredential.user?.updateDisplayName(_nameController.text.trim());
 
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Cadastro realizado com sucesso!')),
-      //   _showAlertDialog('Cadastro realizado com sucesso!');
-      // );
       _showAlertDialog('Cadastro realizado com sucesso!');
 
       Navigator.pushReplacement(
@@ -35,9 +33,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     } catch (e) {
       _showAlertDialog('Erro ao cadastrar: $e');
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Erro ao cadastrar: $e')),
-      // );
     }
   }
 
@@ -64,11 +59,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cadastro')),
+      appBar: AppBar(title: Text('')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(24),
         child: Column(
           children: [
+            Image.asset(
+              'assets/cadastro.png',
+              height: 100,
+            ),
+            SizedBox(height: 0),
+
             _buildTextField("Nome", _nameController),
             SizedBox(height: 10),
 
@@ -78,10 +79,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             _buildTextField("Senha", _passwordController),
             SizedBox(height: 10),
 
-
-            SizedBox(height: 20),
+            SizedBox(height: 0),
             _buildLoginButton("Cadastrar", _register),
-            SizedBox(height: 10),
+            SizedBox(height: 0),
           ],
         ),
       ),

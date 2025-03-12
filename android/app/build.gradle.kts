@@ -32,7 +32,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        minSdkVersion(23)
+        minSdkVersion(23);
 
     }
 
@@ -45,6 +45,7 @@ android {
         }
     }
 }
+
 
 flutter {
     source = "../.."

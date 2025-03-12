@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Metodo para login com email e senha
+  // Método para login com email e senha
   Future<User?> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -16,7 +16,7 @@ class AuthService {
     }
   }
 
-  // Metodo para cadastro com email e senha
+  // Método para cadastro com email e senha
   Future<User?> signUpWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
@@ -28,7 +28,7 @@ class AuthService {
     }
   }
 
-  // Metodo para login com Google
+  // Método para login com Google
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -46,7 +46,7 @@ class AuthService {
     }
   }
 
-  // Metodo para logout
+  // Método para logout
   Future<void> signOut() async {
     await _auth.signOut();
     await GoogleSignIn().signOut();

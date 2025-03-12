@@ -47,13 +47,19 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Redefinir Senha")),
+      appBar: AppBar(title: Text("")),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Image.asset(
+              'assets/resetsenha.png',
+              height: 100,
+            ),
+            SizedBox(height: 30),
+
             Text(
               "Digite seu e-mail e enviaremos um link para redefinir sua senha:",
               textAlign: TextAlign.center,

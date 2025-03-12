@@ -92,7 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text('')),
+      // backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Center(
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Logo
               Image.asset(
                 'assets/connectfeso.png',
-                height: 100,
+                height: 50,
               ),
               SizedBox(height: 10),
 
