@@ -21,7 +21,8 @@ class HomeScreen extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text("Desconectado com sucesso!"),
                 duration: Duration(seconds: 2),
-              ));
+                )
+              );
               // Navega de volta para a tela de login
               Navigator.pushReplacement(
                 context,

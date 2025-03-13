@@ -39,7 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      _showAlertDialog('Erro ao fazer login: $e');
+      // _showAlertDialog('Erro ao fazer login!');
+      _showAlertDialog('Erro ao fazer login: $e'); //informa qual erro
     }
   }
 
@@ -64,7 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      _showAlertDialog('Erro ao fazer login com Google: $e');
+      // _showAlertDialog('Erro ao fazer login com Google!');
+      _showAlertDialog('Erro ao fazer login com Google: $e'); // informa qual erro
     }
   }
 
@@ -92,8 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('')),
-      // backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(245, 245, 245, 245),      // appBar: AppBar(title: Text('')),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Center(

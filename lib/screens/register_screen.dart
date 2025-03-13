@@ -59,34 +59,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('')),
-      body: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/cadastro.png',
-              height: 100,
+      backgroundColor: Color.fromARGB(245, 245, 245, 245), // Quase branco
+      body: Column(
+        children: [
+          // Botão de voltar no topo
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 28),
+                  onPressed: () {
+                    Navigator.pop(context); // Voltar para a tela anterior
+                  },
+                ),
+              ),
             ),
-            SizedBox(height: 0),
+          ),
 
-            _buildTextField("Nome", _nameController),
-            SizedBox(height: 10),
+          // Formulário um pouco mais para cima
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start, // Mantém o formulário no topo
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 10), // Ajuste para subir mais
+                  Image.asset(
+                    'assets/cadastro.png',
+                    height: 100,
+                  ),
+                  SizedBox(height: 20),
 
-            _buildTextField("E-mail", _emailController),
-            SizedBox(height: 10),
+                  _buildTextField("Nome", _nameController),
+                  SizedBox(height: 10),
 
-            _buildTextField("Senha", _passwordController),
-            SizedBox(height: 10),
+                  _buildTextField("E-mail", _emailController),
+                  SizedBox(height: 10),
 
-            SizedBox(height: 0),
-            _buildLoginButton("Cadastrar", _register),
-            SizedBox(height: 0),
-          ],
-        ),
+                  _buildTextField("Senha", _passwordController),
+                  SizedBox(height: 20),
+
+                  _buildLoginButton("Cadastrar", _register),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
+
+
+
 }
 
 

@@ -18,6 +18,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
     } on FirebaseAuthException catch (e) {
       // String errorMessage = "Erro ao redefinir senha";
       _showAlertDialog('Erro ao redefinir senha');
+      // _showAlertDialog('Erro ao redefinir senha $e'); // mostra o erro
       if (e.code == 'invalid-email') {
         _showAlertDialog('E-mail inválido');
       }
@@ -47,37 +48,63 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("")),
-      body: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Image.asset(
-              'assets/resetsenha.png',
-              height: 100,
+      backgroundColor: Color.fromARGB(245, 245, 245, 245), // Quase branco
+      body: Column(
+        children: [
+          // Botão de voltar no topo, como uma AppBar
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10), // Ajuste do espaçamento
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 28),
+                  onPressed: () {
+                    Navigator.pop(context); // Voltar para a tela anterior
+                  },
+                ),
+              ),
             ),
-            SizedBox(height: 30),
+          ),
 
-            Text(
-              "Digite seu e-mail e enviaremos um link para redefinir sua senha:",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Color(0xFF006B64)),
+          // Corpo da tela
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.asset(
+                    'assets/resetsenha.png',
+                    height: 100,
+                  ),
+                  SizedBox(height: 30),
+
+                  Text(
+                    "Digite seu e-mail e enviaremos um link para redefinir sua senha:",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, color: Color(0xFF006B64)),
+                  ),
+                  SizedBox(height: 20),
+
+                  _buildTextField("E-mail", _emailController),
+                  SizedBox(height: 10),
+
+                  _buildLoginButton("Enviar Link de Redefinição", _resetPassword),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
-            SizedBox(height: 20),
-
-            _buildTextField("E-mail", _emailController),
-            SizedBox(height: 10),
-
-
-            _buildLoginButton("Enviar Link de Redefinição", _resetPassword),
-            SizedBox(height: 10),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+
+
+
+
 }
 
 Widget _buildLoginButton(String text, VoidCallback onPressed) {
