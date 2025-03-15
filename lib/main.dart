@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true, // habilida a tarja DEBUG no topo do APP
       title: 'Connect Feso',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: SplashScreen(), // Define a Splash Screen como a primeira tela
