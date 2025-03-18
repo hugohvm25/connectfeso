@@ -3,11 +3,16 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:label="connectfeso"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Chave de API do Google Maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCCSNH7VpHuAkF9D0l_6iM7lWP7uCBRlIE"/>
 
         <activity
             android:name=".MainActivity"
@@ -19,12 +24,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
 
-            <!-- Chave de API do Google Maps -->
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyCqPSga_PyPgzNNP-X-YzrLG99eR7LJRcU"/>
 
-            <!--            android:value="AIzaSyAPz2sUOn1LXy1LyXO7knMMeE0Q094M55Q"/>-->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
