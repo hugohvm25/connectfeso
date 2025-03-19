@@ -349,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
       closeManually: false, // Garante que o botão fecha sozinho
       children: [
         SpeedDialChild(
+          //botão de realidade aumentada
           child: Icon(Icons.view_in_ar, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
           label: "Realidade Aumentada",
@@ -358,6 +359,19 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ARScreen()),
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.chat, color: Colors.white),
+          backgroundColor: Color(0xFF006B64),
+          label: "Chatbot de IA",
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
+          labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatScreen()),
             );
           },
         ),
