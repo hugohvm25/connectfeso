@@ -58,7 +58,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 28),
+                  icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 35),
                   onPressed: () {
                     Navigator.pop(context); // Voltar para a tela anterior
                   },
@@ -79,7 +79,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     'assets/resetsenha.png',
                     height: 100,
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 20),
 
                   Text(
                     "Digite seu e-mail e enviaremos um link para redefinir sua senha:",
@@ -97,6 +97,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
               ),
             ),
           ),
+          SizedBox(height: 100),
         ],
       ),
     );
@@ -131,12 +132,21 @@ Widget _buildTextField(String hint, TextEditingController controller) {
     decoration: InputDecoration(
       hintText: hint,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Colors.grey.shade100,
       contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      border: OutlineInputBorder(
+
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
+        borderRadius: BorderRadius.circular(20), // Borda arredondada
+      ),
+
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
         borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide(color: Colors.grey.shade400),
       ),
     ),
+    style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
+    cursorColor: Colors.teal.shade700, // Cor do cursor piscante
   );
+
 }

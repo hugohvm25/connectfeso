@@ -59,34 +59,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xF5F5F5F5), // Quase branco
-      body: Column(
-        children: [
-          // Botão de voltar no topo
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 28),
-                  onPressed: () {
-                    Navigator.pop(context); // Voltar para a tela anterior
-                  },
+      body: SingleChildScrollView(    // Permite que o conteúdo seja rolado
+        child: Column(
+          children: [
+            // Botão de voltar no topo
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 35),
+                    onPressed: () {
+                      Navigator.pop(context); // Voltar para a tela anterior
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
 
-          // Formulário um pouco mais para cima
-          Expanded(
-            child: Padding(
+            // Formulário um pouco mais para cima
+            Padding(
               padding: EdgeInsets.all(24),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start, // Mantém o formulário no topo
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 10), // Ajuste para subir mais
+                mainAxisAlignment: MainAxisAlignment.center, // Mantém o formulário no topo
+                children: [                  // Ajuste para subir mais
                   Image.asset(
                     'assets/cadastro.png',
                     height: 100,
@@ -106,15 +105,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-
-
-
 }
+
 
 
 // caixa de texto
@@ -124,16 +121,26 @@ Widget _buildTextField(String hint, TextEditingController controller,) {
     decoration: InputDecoration(
       hintText: hint,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Colors.grey.shade100,
       contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      border: OutlineInputBorder(
+
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
+        borderRadius: BorderRadius.circular(20), // Borda arredondada
+      ),
+
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
         borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide(color: Colors.grey.shade400),
       ),
     ),
+    style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
+    cursorColor: Colors.teal.shade700, // Cor do cursor piscante
   );
 }
 
+
+// configurações do botão "Cadastrar"
 Widget _buildLoginButton(String text, VoidCallback onPressed) {
   return ElevatedButton(
     onPressed: onPressed,
