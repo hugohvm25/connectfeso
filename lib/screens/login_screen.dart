@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Colors.grey.shade100,
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
 
         enabledBorder: OutlineInputBorder(
