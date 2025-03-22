@@ -48,7 +48,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(245, 245, 245, 245), // Quase branco
+      backgroundColor: Color(0xF5F5F5F5), // Quase branco
       body: Column(
         children: [
           // Botão de voltar no topo, como uma AppBar

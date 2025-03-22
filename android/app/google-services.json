@@ -14,23 +14,22 @@
       },
       "oauth_client": [
         {
-          "client_id": "261992274173-qiccm1e9900f9ht5q3rffvbai92730lr.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "261992274173-n7nna677n7k81avjsp1bg73k80n0gvks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.connectfeso",
+            "certificate_hash": "6ab0a9f6c83ca54686579ce2c1c79562b91c5871"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCqPSga_PyPgzNNP-X-YzrLG99eR7LJRcU"
+          "current_key": "AIzaSyBfrzsozbSHUSP1ZTJY2D_8T78IHTaqkc8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "261992274173-qiccm1e9900f9ht5q3rffvbai92730lr.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

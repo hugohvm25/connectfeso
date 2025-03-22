@@ -50,19 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBACOwzZVsRZp5fQokvMUYGBHFXN5Eg6fM',
-    appId: '1:1084767202701:android:75479b87cb9d7956b261c4',
-    messagingSenderId: '1084767202701',
-    projectId: 'projeto-5ea01',
-    storageBucket: 'projeto-5ea01.firebasestorage.app',
+    apiKey: 'AIzaSyBfrzsozbSHUSP1ZTJY2D_8T78IHTaqkc8',
+    appId: '1:261992274173:android:75d44665a95fc4c06f4694',
+    messagingSenderId: '261992274173',
+    projectId: 'connectfeso',
+    storageBucket: 'connectfeso.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDf6oQndJ0l_bhNZ8i947XQNLxDy2vcvWw',
-    appId: '1:1084767202701:ios:d25fa9b575dea265b261c4',
-    messagingSenderId: '1084767202701',
-    projectId: 'projeto-5ea01',
-    storageBucket: 'projeto-5ea01.firebasestorage.app',
+    apiKey: 'AIzaSyAvAZQjHkTFMNXSoF0F7xYc5tAajKunOL0',
+    appId: '1:261992274173:ios:e7e5c64e9e4e75656f4694',
+    messagingSenderId: '261992274173',
+    projectId: 'connectfeso',
+    storageBucket: 'connectfeso.firebasestorage.app',
+    androidClientId: '261992274173-n7nna677n7k81avjsp1bg73k80n0gvks.apps.googleusercontent.com',
+    iosClientId: '261992274173-2r4hr4648ck5kogoet6f5pvicv3pj8nq.apps.googleusercontent.com',
     iosBundleId: 'com.example.connectfeso',
   );
+
 }

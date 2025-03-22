@@ -73,6 +73,9 @@ flutter:
     - assets/feso_pulsando.json
     - assets/cadastro.png
     - assets/resetsenha.png
+    - assets/connect_feso_branco.png
+    - assets/connect_chat_branco.png
+    - assets/marcador.png
     #- logo_animado.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see

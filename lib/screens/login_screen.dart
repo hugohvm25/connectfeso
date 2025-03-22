@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(245, 245, 245, 245),      // appBar: AppBar(title: Text('')),
+      backgroundColor: Color(0xF5F5F5F5),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Center(
@@ -186,10 +186,17 @@ class _LoginScreenState extends State<LoginScreen> {
         filled: true,
         fillColor: Colors.white,
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Colors.grey.shade400),
+
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
+          borderRadius: BorderRadius.circular(20), // Borda arredondada
         ),
+
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
+          borderRadius: BorderRadius.circular(20),
+        ),
+
         suffixIcon: isPassword
             ? IconButton(
           icon: Icon(
@@ -204,6 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
         )
             : null,
       ),
+      style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
+      cursorColor: Colors.teal.shade700, // Cor do cursor piscante
     );
   }
 

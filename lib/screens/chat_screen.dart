@@ -34,7 +34,16 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Guia Virtual")),
+      backgroundColor: Color(0xF5F5F5F5),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF006B64),
+        title: Image.asset(
+          "assets/connect_chat_branco.png",
+          height: 40, // Ajuste o tamanho conforme necessário
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+
       body: Column(
         children: [
           Expanded(
@@ -54,13 +63,31 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child:
+                  TextField(
                     controller: _controller,
-                    decoration: InputDecoration(labelText: "Pergunte algo..."),
-                  ),
+                    decoration: InputDecoration(
+                      labelText: "Pergunte algo...",
+                      labelStyle: TextStyle(color: Colors.teal.shade900), // Cor do rótulo
+                      filled: false, // Preenche o fundo do campo
+                      fillColor: Colors.teal.shade50, // Cor de fundo
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
+                        borderRadius: BorderRadius.circular(20), // Borda arredondada
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+
+                    style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
+                    cursorColor: Colors.teal.shade700, // Cor do cursor piscante
+                  )
                 ),
+
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(Icons.send, color: Color(0xFF006B64), size: 35),
                   onPressed: _enviarMensagem,
                 ),
               ],

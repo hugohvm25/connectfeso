@@ -59,13 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xF5F5F5F5),
       appBar: AppBar(
+        automaticallyImplyLeading: false, // esconde a seta de retorno do appbar
         backgroundColor: Color(0xFF006B64),
-        title: Text("Connect Feso", style: TextStyle(color: Colors.white)),
+        title: Image.asset(
+          "assets/connect_feso_branco.png",
+          height: 50, // Ajuste o tamanho conforme necessário
+        ),
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app, color: Colors.white),
+            icon: Icon(Icons.exit_to_app, color: Colors.white, size: 30),
             onPressed: () async {
               await _authService.signOut();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Mapa ocupa metade da tela
           Container(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 3,
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
@@ -94,12 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
               markers: markers,
             ),
           ),
+
           // Lista de botões com os nomes dos locais
           Expanded(
             child: ListView.builder(
               itemCount: locationNames.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  leading: Image.asset(
+                    "assets/marcador.png", // Caminho da imagem no assets
+                    width: 40, // Ajuste conforme necessário                    height: 40,
+                  ),
                   title: Text(locationNames[index]),
                   onTap: () {
                     _moveToLocation(locations[index]);
@@ -120,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSpeedDial() {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
-      animatedIconTheme: IconThemeData(color: Colors.white, size: 22),
+      animatedIconTheme: IconThemeData(color: Colors.white, size: 30),
       backgroundColor: Color(0xFF006B64),
       foregroundColor: Colors.white,
       closeManually: false, // Garante que o botão fecha sozinho
@@ -142,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SpeedDialChild(
           child: Icon(Icons.chat, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
-          label: "Chatbot de IA",
+          label: "Connect Chat",
           labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
           labelBackgroundColor: Color(0xFF006B64), // Fundo da label
           onTap: () {
@@ -154,14 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
-
-
   }
 }
-
-
-
-
-
-
 
