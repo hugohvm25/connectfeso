@@ -11,11 +11,25 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
   final GeminiService _geminiService = GeminiService();
+
   bool _isLoading = false;
+
+  void _addBotMessage(String text) {
+    setState(() {
+      _messages.add({"sender": "bot", "text": text});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _addBotMessage("Olá! Sou o seu assistente virtual da UNIFESO, em que posso te ajudar?");
+  }
 
   void _enviarMensagem() async {
     String pergunta = _controller.text.trim();
     if (pergunta.isEmpty) return;
+
 
     setState(() {
       _messages.add({"role": "user", "text": pergunta});

@@ -52,6 +52,7 @@ class GeminiService {
       }),
     );
 
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
