@@ -169,11 +169,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
         // botão do Tour 360
         SpeedDialChild(
-          child: Icon(Icons.ac_unit, color: Colors.white),
+          child: Image.asset(
+            // 'assets/icone_360.png',
+            'assets/360-graus.png',
+            width: 30,
+            height: 30,
+            color: Colors.white, // opcional: aplica uma cor à imagem (funciona com imagens monocromáticas)
+          ),
           backgroundColor: Color(0xFF006B64),
           label: "Tour 360º",
-          labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
-          labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+          labelBackgroundColor: Color(0xFF006B64),
           onTap: () {
             Navigator.push(
               context,
@@ -181,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+
       ],
     );
   }
