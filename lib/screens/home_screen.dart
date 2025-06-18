@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<String> locationNames = [
-    "Campus Sede",
+    "Campus Antonio Paulo Capanema de Souza",
     "Campus Quinta do Paraíso",
     "Centro Cultural Feso Pró-Arte",
   ];
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Mapa ocupa metade da tela
           Container(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 1.6,
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         // botão do Tour 360
         SpeedDialChild(
-          child: Icon(Icons.chat, color: Colors.white),
+          child: Icon(Icons.ac_unit, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
           label: "Tour 360º",
           labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
