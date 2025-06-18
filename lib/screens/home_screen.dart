@@ -1,3 +1,4 @@
+import 'package:connectfeso/screens/360_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart'; // Importa SpeedDial
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Mapa ocupa metade da tela
           Container(
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 2,
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
@@ -135,8 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
       foregroundColor: Colors.white,
       closeManually: false, // Garante que o botão fecha sozinho
       children: [
+
+        //botão de realidade aumentada
         SpeedDialChild(
-          //botão de realidade aumentada
           child: Icon(Icons.view_in_ar, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
           label: "Realidade Aumentada",
@@ -149,6 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+
+        // botão de chatbot com IA
         SpeedDialChild(
           child: Icon(Icons.chat, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
@@ -159,6 +163,21 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ChatScreen()),
+            );
+          },
+        ),
+
+        // botão do Tour 360
+        SpeedDialChild(
+          child: Icon(Icons.chat, color: Colors.white),
+          backgroundColor: Color(0xFF006B64),
+          label: "Tour 360º",
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
+          labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TourScreen()),
             );
           },
         ),
