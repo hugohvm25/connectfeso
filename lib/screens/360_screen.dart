@@ -113,9 +113,9 @@ class _TourScreenState extends State<TourScreen> {
   int _index = 0;
 
   final List<String> images = [
+    'assets/patio_sede_relogio.jpg',
     'assets/patio_sede.jpg',
-    'assets/teste1.jpg',
-    'assets/teste2.jpg',
+    'assets/sede_casarao.jpg',
   ];
 
   void _goToNextImage() {
