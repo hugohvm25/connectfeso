@@ -36,23 +36,54 @@ class _HomeScreenState extends State<HomeScreen> {
     "Centro Cultural Feso Pró-Arte",
   ];
 
+
+  // void _onMapCreated(GoogleMapController controller) {
+  //   _mapController = controller;
+  //   // Criar os marcadores fixos
+  //   for (int i = 0; i < locations.length; i++) {
+  //     final Marker marker = Marker(
+  //       markerId: MarkerId('marker_$i'),
+  //       position: locations[i],
+  //       infoWindow: InfoWindow(
+  //         title: locationNames[i],
+  //       ),
+  //     );
+  //     setState(() {
+  //       markers.add(marker);
+  //     });
+  //   }
+  // }
+  //
+
+
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    // Criar os marcadores fixos
+
+    // Cria os marcadores para cada local
     for (int i = 0; i < locations.length; i++) {
       final Marker marker = Marker(
         markerId: MarkerId('marker_$i'),
         position: locations[i],
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         infoWindow: InfoWindow(
           title: locationNames[i],
+          snippet: "Clique para ver o tour 360º",
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TourScreen()),
+            );
+          },
         ),
       );
-      setState(() {
-        markers.add(marker);
-      });
-    }
-  }
 
+      // Adiciona o marcador ao conjunto
+      markers.add(marker);
+    }
+
+    // Atualiza a UI
+    setState(() {});
+  }
 
 
   void _moveToLocation(LatLng position) {
@@ -104,6 +135,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           // Lista de botões com os nomes dos locais
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: locationNames.length,
+          //     itemBuilder: (context, index) {
+          //       return ListTile(
+          //         leading: Image.asset(
+          //           "assets/marcador.png", // Caminho da imagem no assets
+          //           width: 40, // Ajuste conforme necessário                    height: 40,
+          //         ),
+          //         title: Text(locationNames[index]),
+          //         onTap: () {
+          //           _moveToLocation(locations[index]);
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
           Expanded(
             child: ListView.builder(
               itemCount: locationNames.length,
@@ -111,16 +159,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 return ListTile(
                   leading: Image.asset(
                     "assets/marcador.png", // Caminho da imagem no assets
-                    width: 40, // Ajuste conforme necessário                    height: 40,
+                    width: 40,
+                    height: 40,
                   ),
                   title: Text(locationNames[index]),
                   onTap: () {
+                    // Move a câmera até o local selecionado
                     _moveToLocation(locations[index]);
+
+                    // Mostra o balão do marcador (InfoWindow)
+                    Future.delayed(Duration(milliseconds: 300), () {
+                      _mapController.showMarkerInfoWindow(MarkerId('marker_$index'));
+                    });
                   },
                 );
               },
             ),
           ),
+
         ],
       ),
 
