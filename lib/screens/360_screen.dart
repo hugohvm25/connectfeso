@@ -142,7 +142,8 @@ class _TourScreenState extends State<TourScreen> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: Stack(
+      body:
+      Stack(
         children: [
           // Imagem 360º renderizada
           PanoramaViewer(
@@ -156,11 +157,15 @@ class _TourScreenState extends State<TourScreen> {
             Positioned(
               bottom: 30,
               right: 20,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xFF006B64),
+              child: IconButton(
+                icon: Icon(Icons.arrow_circle_right, size: 60, color: Color(0xFF006B64)),
                 onPressed: _goToNextImage,
-                child: Icon(Icons.arrow_forward, color: Colors.white),
               ),
+              // child: FloatingActionButton(
+              //   backgroundColor: Color(0xFF006B64),
+              //   onPressed: _goToNextImage,
+              //   child: Icon(Icons.arrow_circle_right, color: Colors.white),
+              // ),
             ),
 
           // Simulando Hotspot 2
@@ -168,33 +173,45 @@ class _TourScreenState extends State<TourScreen> {
             Positioned(
               bottom: 30,
               right: 20,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xFF006B64),
-                onPressed: _goToNextImage,
-                child: Icon(Icons.arrow_forward, color: Colors.white),
-              ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_circle_right, size: 60, color: Color(0xFF006B64)),
+                  onPressed: _goToNextImage,
+                ),
+              // child: FloatingActionButton(
+              //   backgroundColor: Color(0xFF006B64),
+              //   onPressed: _goToNextImage,
+              //   child: Icon(Icons.arrow_forward, color: Colors.white),
+              // ),
             ),
 
           if (_index == 1)
             Positioned(
               bottom: 30,
               left: 20,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xFF006B64),
-                onPressed: _goToPreviousImage,
-                child: Icon(Icons.arrow_back, color: Colors.white),
-              ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_circle_left, size: 60, color: Color(0xFF006B64)),
+                  onPressed: _goToPreviousImage,
+                ),
+              // child: FloatingActionButton(
+              //   backgroundColor: Color(0xFF006B64),
+              //   onPressed: _goToPreviousImage,
+              //   child: Icon(Icons.arrow_back, color: Colors.white),
+              // ),
             ),
 
           if (_index == 2)
             Positioned(
               bottom: 30,
               left: 20,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xFF006B64),
+              child: IconButton(
+                icon: Icon(Icons.arrow_circle_left, size: 60, color: Color(0xFF006B64)),
                 onPressed: _goToPreviousImage,
-                child: Icon(Icons.arrow_back, color: Colors.white),
               ),
+              // child: FloatingActionButton(
+              //   backgroundColor: Color(0xFF006B64),
+              //   onPressed: _goToPreviousImage,
+              //   child: Icon(Icons.arrow_back, color: Colors.white),
+              // ),
             ),
         ],
       ),
