@@ -37,25 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
 
-  // void _onMapCreated(GoogleMapController controller) {
-  //   _mapController = controller;
-  //   // Criar os marcadores fixos
-  //   for (int i = 0; i < locations.length; i++) {
-  //     final Marker marker = Marker(
-  //       markerId: MarkerId('marker_$i'),
-  //       position: locations[i],
-  //       infoWindow: InfoWindow(
-  //         title: locationNames[i],
-  //       ),
-  //     );
-  //     setState(() {
-  //       markers.add(marker);
-  //     });
-  //   }
-  // }
-  //
-
-
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
 

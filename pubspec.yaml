@@ -55,10 +55,13 @@ flutter:
     - assets/patio_sede.jpg
     - assets/icone_360.png
     - assets/360-graus.png
-    - assets/teste1.jpg
-    - assets/teste2.jpg
     - assets/patio_sede_relogio.jpg
     - assets/sede_casarao.jpg
+    - assets/foto_fazenda.jpg
+    - assets/foto_proarte.jpg
+    - assets/foto_sede.jpg
+    - assets/proarte.jpg
+    - assets/sede_fachada.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
