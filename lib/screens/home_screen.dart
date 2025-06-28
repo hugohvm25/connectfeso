@@ -263,16 +263,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Map<String, dynamic>> locais = [
     {
+      'campusId': '1',
       'titulo': 'Campus Antonio Paulo Capanema de Souza',
       'imagem': 'assets/foto_sede.jpg',
       'posicao': LatLng(-22.433915, -42.979152),
     },
     {
+      'campusId': '2',
       'titulo': 'Campus Quinta do Paraíso',
       'imagem': 'assets/foto_fazenda.jpg',
       'posicao': LatLng(-22.393867, -42.959523),
     },
     {
+      'campusId': '3',
       'titulo': 'Centro Cultural Feso Pro Arte',
       'imagem': 'assets/foto_proarte.jpg',
       'posicao': LatLng(-22.440599, -42.978091),
@@ -305,7 +308,9 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => TourScreen()),
+                MaterialPageRoute(
+                  builder: (context) => TourScreen(campusId: locais[_currentIndex]['campusId']),
+                ),
               );
             },
           ),
@@ -398,8 +403,8 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               options: CarouselOptions(
                 enlargeCenterPage: true,
-                autoPlay: false,
-                autoPlayInterval: Duration(seconds: 5),
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 15),
                 onPageChanged: _onCarouselChanged,
               ),
             ),
@@ -425,15 +430,15 @@ class _HomeScreenState extends State<HomeScreen> {
         SpeedDialChild(
           child: Icon(Icons.view_in_ar, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
-          // label: "Realidade Aumentada",
-          label: "Menu Teste",
+          label: "Realidade Aumentada",
+          // label: "Menu Teste",
           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
           labelBackgroundColor: Color(0xFF006B64),
           onTap: () {
             Navigator.push(
               context,
-              // MaterialPageRoute(builder: (context) => ARScreen()),
-              MaterialPageRoute(builder: (context) => MenuTeste()),
+              MaterialPageRoute(builder: (context) => ARScreen()),
+              // MaterialPageRoute(builder: (context) => MenuTeste()),
             );
           },
         ),
@@ -454,25 +459,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         // botão do Tour 360
-        SpeedDialChild(
-          child: Image.asset(
-            // 'assets/icone_360.png',
-            'assets/360-graus.png',
-            width: 30,
-            height: 30,
-            color: Colors.white, // opcional: aplica uma cor à imagem (funciona com locais monocromáticas)
-          ),
-          backgroundColor: Color(0xFF006B64),
-          label: "Tour 360º",
-          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
-          labelBackgroundColor: Color(0xFF006B64),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TourScreen()),
-            );
-          },
-        ),
+        // SpeedDialChild(
+        //   child: Image.asset(
+        //     // 'assets/icone_360.png',
+        //     'assets/360-graus.png',
+        //     width: 30,
+        //     height: 30,
+        //     color: Colors.white, // opcional: aplica uma cor à imagem (funciona com locais monocromáticas)
+        //   ),
+        //   backgroundColor: Color(0xFF006B64),
+        //   label: "Tour 360º",
+        //   labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+        //   labelBackgroundColor: Color(0xFF006B64),
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => TourScreen()),
+        //     );
+        //   },
+        // ),
       ],
     );
   }

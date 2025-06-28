@@ -66,19 +66,28 @@ flutter:
     - assets/connect_chat_branco.png
     - assets/marcador.png
     - assets/tour_360_branco_sem_fundo.png
-    - assets/patio_sede.jpg
+
     - assets/icone_360.png
     - assets/360-graus.png
-    - assets/patio_sede_relogio.jpg
-    - assets/sede_casarao.jpg
+
     - assets/foto_fazenda.jpg
     - assets/foto_proarte.jpg
     - assets/foto_sede.jpg
-    - assets/proarte.jpg
-    - assets/sede_fachada.jpg
 
+# imagens na pasta 360
+    # sede
+    - assets/360/sede/sede_fachada.jpg
+    - assets/360/sede/patio_sede_relogio.jpg
+    - assets/360/sede/patio_sede.jpg
+    - assets/360/sede/sede_casarao.jpg
 
+    #proarte
+    - assets/360/proarte/proarte.jpg
+    - assets/360/proarte/teste1.jpg
 
+    #fazenda
+    - assets/360/quinta_paraiso/teste1.jpg
+    - assets/360/quinta_paraiso/teste2.jpg
 
 
 
