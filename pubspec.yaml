@@ -2,14 +2,18 @@ name: connectfeso
 description: "Faça um Tour pelos campus do UNIFESO."
 
 
+
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
 
 
 version: 1.0.0+1
 
 
+
 environment:
   sdk: ^3.7.0
+
 
 
 dependencies:
@@ -25,6 +29,10 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   cupertino_icons: ^1.0.8
   panorama_viewer: ^2.0.4
+  carousel_slider: ^5.1.1
+
+
+
 
 
 dev_dependencies:
@@ -33,10 +41,16 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^5.0.0
 
+
+
+
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/icone_connectfeso.png"  # caminho para sua imagem do ícone
+
+
+
 
 
 flutter:
@@ -62,6 +76,11 @@ flutter:
     - assets/foto_sede.jpg
     - assets/proarte.jpg
     - assets/sede_fachada.jpg
+
+
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

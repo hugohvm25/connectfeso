@@ -1,4 +1,5 @@
 import 'package:connectfeso/screens/360_screen.dart';
+import 'package:connectfeso/screens/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart'; // Importa SpeedDial
@@ -102,9 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: Column(
         children: [
-          // Mapa ocupa metade da tela
+
+          //ajuste do mapa
           Container(
-            height: MediaQuery.of(context).size.height / 1.6,
+            height: MediaQuery.of(context).size.height / 2.5, // tamanho do mapa,
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
@@ -115,24 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // Lista de botões com os nomes dos locais
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: locationNames.length,
-          //     itemBuilder: (context, index) {
-          //       return ListTile(
-          //         leading: Image.asset(
-          //           "assets/marcador.png", // Caminho da imagem no assets
-          //           width: 40, // Ajuste conforme necessário                    height: 40,
-          //         ),
-          //         title: Text(locationNames[index]),
-          //         onTap: () {
-          //           _moveToLocation(locations[index]);
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
+          // marcadores
           Expanded(
             child: ListView.builder(
               itemCount: locationNames.length,
@@ -180,13 +165,15 @@ class _HomeScreenState extends State<HomeScreen> {
         SpeedDialChild(
           child: Icon(Icons.view_in_ar, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
-          label: "Realidade Aumentada",
+          // label: "Realidade Aumentada",
+          label: "Menu Teste",
           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
           labelBackgroundColor: Color(0xFF006B64),
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ARScreen()),
+              // MaterialPageRoute(builder: (context) => ARScreen()),
+              MaterialPageRoute(builder: (context) => MenuTeste()),
             );
           },
         ),
@@ -226,7 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-
       ],
     );
   }
