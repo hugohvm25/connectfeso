@@ -2,12 +2,14 @@
 
 <img src="assets/connectfeso.png" alt="Logo do projeto" width="500">
 
-Bem vindo ao Connect Feso.
+Bem vindo ao ConnectFeso.
 
 Aplicativo móvel desenvolvido em Flutter com foco em inovação e integração universitária. O ConnectFeso oferece recursos de localização, tour virtual imersivo e chatbot com inteligência artificial, além de propostas para realidade aumentada.
 
+#connectfeso
 
-===================
+
+
 ✨ Funcionalidades
 ===================
 
@@ -20,61 +22,51 @@ Aplicativo móvel desenvolvido em Flutter com foco em inovação e integração 
 🧠 Realidade Aumentada (proposta futura) para navegação e interação enriquecida
 
 
-===================
+
 🚀 Tecnologias
 ===================
 
-Linguagem: Dart
-
-Framework: Flutter
-
-Mapas: google_maps_flutter
-
-Tour 360: panorama_viewer
-
-IA/Chatbot: (Ex: integração com Dialogflow ou modelo local)
+- **Linguagem:** Dart  
+- **Framework:** Flutter
+- **API:** Google  
+- **Pacotes Principais:**
+  - [`google_maps_flutter`](https://pub.dev/packages/google_maps_flutter)
+  - [`panorama_viewer`](https://pub.dev/packages/panorama_viewer)  
 
 
-===================
+
 📦 Instalação
 ===================
 Clone o repositório:
 
-bash
-Copiar
-Editar
+```bash
 git clone https://github.com/hugohvm25/connectfeso.git
+```
+
 Acesse a pasta do projeto:
 
-bash
-Copiar
-Editar
+```bash
 cd connectfeso
+```
+
 Instale as dependências:
 
-bash
-Copiar
-Editar
+```bash
 flutter pub get
-Execute no emulador ou dispositivo:
-
-bash
-Copiar
-Editar
 flutter run
+```
 
 
-===================
+
 🛠️ Requisitos
 ===================
-Flutter SDK (versão estável mais recente)
 
-Android Studio ou VS Code com Flutter plugin
+- **Flutter SDK (versão estável)
+- **Android Studio ou VS Code com plugin Flutter
+- **Dispositivo físico ou emulador Android/iOS
 
-Emulador Android/iOS ou dispositivo físico
 
 
-===================
 📌 Status do Projeto
 ===================
 
@@ -82,7 +74,7 @@ Emulador Android/iOS ou dispositivo físico
 🚧 Realidade aumentada em planejamento
 
 
-===================
+
 📬 Contato
 ===================
 
@@ -91,6 +83,9 @@ Desenvolvedor: Hugo Mello
 🔗 github.com/hugohvm25
 
 
+## License
 
-#connectfeso
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
 
