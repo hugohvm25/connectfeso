@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   panorama_viewer: ^2.0.4
   carousel_slider: ^5.1.1
+  webview_flutter: ^4.13.0
 
 
 
@@ -73,6 +74,8 @@ flutter:
     - assets/foto_fazenda.jpg
     - assets/foto_proarte.jpg
     - assets/foto_sede.jpg
+
+    - assets/construcao.png
 
 # imagens na pasta 360
     # sede

@@ -238,17 +238,278 @@
 //   }
 // }
 
+// import 'package:connectfeso/screens/localization_screen.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+//
+// import '../services/auth_service.dart';
+// import 'login_screen.dart';
+// import 'chat_screen.dart';
+// import 'ar_screen.dart';
+// import '360_screen.dart';
+// import 'teste.dart';
+//
+// class HomeScreen extends StatefulWidget {
+//   const HomeScreen({super.key});
+//
+//   @override
+//   State<HomeScreen> createState() => _HomeScreenState();
+// }
+//
+// class _HomeScreenState extends State<HomeScreen> {
+//   final AuthService _authService = AuthService();
+//   late GoogleMapController _mapController;
+//
+//   final List<Map<String, dynamic>> locais = [
+//     {
+//       'campusId': '1',
+//       'titulo': 'Campus Antonio Paulo Capanema de Souza',
+//       'imagem': 'assets/foto_sede.jpg',
+//       'posicao': LatLng(-22.433915, -42.979152),
+//     },
+//     {
+//       'campusId': '2',
+//       'titulo': 'Campus Quinta do Paraíso',
+//       'imagem': 'assets/foto_fazenda.jpg',
+//       'posicao': LatLng(-22.393867, -42.959523),
+//     },
+//     {
+//       'campusId': '3',
+//       'titulo': 'Centro Cultural Feso Pro Arte',
+//       'imagem': 'assets/foto_proarte.jpg',
+//       'posicao': LatLng(-22.440599, -42.978091),
+//     },
+//   ];
+//
+//   int _currentIndex = 0;
+//   Set<Marker> _markers = {};
+//
+//   void _onMapCreated(GoogleMapController controller) {
+//     _mapController = controller;
+//     _atualizarMapa();
+//   }
+//
+//   void _atualizarMapa() {
+//     final local = locais[_currentIndex];
+//
+//     _mapController.animateCamera(
+//       CameraUpdate.newLatLng(local['posicao']),
+//     );
+//
+//     setState(() {
+//       _markers = {
+//         Marker(
+//           markerId: MarkerId("local"),
+//           position: local['posicao'],
+//           infoWindow: InfoWindow(
+//             title: local['titulo'],
+//             snippet: "Clique para ver o tour 360º",
+//             onTap: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => TourScreen(campusId: locais[_currentIndex]['campusId']),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//       };
+//     });
+//
+//     Future.delayed(Duration(milliseconds: 500), () {
+//       _mapController.showMarkerInfoWindow(MarkerId("local"));
+//     });
+//   }
+//
+//   void _onCarouselChanged(int index, CarouselPageChangedReason reason) {
+//     setState(() {
+//       _currentIndex = index;
+//     });
+//     _atualizarMapa();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Color(0xFFF5F5F5),
+//       appBar: AppBar(
+//         automaticallyImplyLeading: false,
+//         backgroundColor: Color(0xFF006B64),
+//         title: Image.asset("assets/connect_feso_branco.png", height: 50),
+//         actions: [
+//           IconButton(
+//             icon: Icon(Icons.exit_to_app, color: Colors.white, size: 30),
+//             onPressed: () async {
+//               await _authService.signOut();
+//               ScaffoldMessenger.of(context).showSnackBar(
+//                 SnackBar(content: Text("Desconectado com sucesso!")),
+//               );
+//               Navigator.pushReplacement(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => LoginScreen()),
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           // MAPA
+//           Container(
+//             height: MediaQuery.of(context).size.height * 0.56,
+//             child: GoogleMap(
+//               onMapCreated: _onMapCreated,
+//               initialCameraPosition: CameraPosition(
+//                 target: locais[0]['posicao'],
+//                 zoom: 17.5,
+//               ),
+//               markers: _markers,
+//             ),
+//           ),
+//
+//           // CARROSSEL PRINCIPAL
+//           SizedBox(
+//             height: 220, // Ajuste esse valor para subir ou descer
+//             child: CarouselSlider.builder(
+//               itemCount: locais.length,
+//               itemBuilder: (context, index, realIdx) {
+//                 final local = locais[index];
+//                 return Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Text(
+//                       local['titulo'],
+//                       textAlign: TextAlign.center,
+//                       style: TextStyle(
+//                         fontSize: 15,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.black87,
+//                       ),
+//                     ),
+//                     SizedBox(height: 10),
+//                     ClipRRect(
+//                       borderRadius: BorderRadius.circular(16),
+//                       child: Image.asset(
+//                         local['imagem'],
+//                         height: 150,
+//                         width: double.infinity,
+//                         fit: BoxFit.cover,
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               },
+//               options: CarouselOptions(
+//                 enlargeCenterPage: true,
+//                 autoPlay: true,
+//                 autoPlayInterval: Duration(seconds: 15),
+//                 onPageChanged: _onCarouselChanged,
+//               ),
+//             ),
+//           )
+//
+//         ],
+//       ),
+//       floatingActionButton: _buildSpeedDial(),
+//     );
+//   }
+//
+//   // Método para criar o menu flutuante com SpeedDial
+//   Widget _buildSpeedDial() {
+//     return SpeedDial(
+//       animatedIcon: AnimatedIcons.menu_close,
+//       animatedIconTheme: IconThemeData(color: Colors.white, size: 30),
+//       backgroundColor: Color(0xFF006B64),
+//       foregroundColor: Colors.white,
+//       closeManually: false, // Garante que o botão fecha sozinho
+//       children: [
+//
+//         //botão de realidade aumentada
+//         SpeedDialChild(
+//           child: Icon(Icons.view_in_ar, color: Colors.white),
+//           backgroundColor: Color(0xFF006B64),
+//           label: "Realidade Aumentada",
+//           // label: "Menu Teste",
+//           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+//           labelBackgroundColor: Color(0xFF006B64),
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => ARScreen()),
+//               // MaterialPageRoute(builder: (context) => MenuTeste()),
+//             );
+//           },
+//         ),
+//
+//         // botão de chatbot com IA
+//         SpeedDialChild(
+//           child: Icon(Icons.chat, color: Colors.white),
+//           backgroundColor: Color(0xFF006B64),
+//           label: "Connect Chat",
+//           labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
+//           labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => ChatScreen()),
+//             );
+//           },
+//         ),
+//
+//         // botão do Tour 360
+//         SpeedDialChild(
+//           child: Image.asset(
+//             // 'assets/icone_360.png',
+//             'assets/360-graus.png',
+//             width: 30,
+//             height: 30,
+//             color: Colors.white, // opcional: aplica uma cor à imagem (funciona com locais monocromáticas)
+//           ),
+//           backgroundColor: Color(0xFF006B64),
+//           label: "Tour 360º",
+//           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+//           labelBackgroundColor: Color(0xFF006B64),
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => TourScreen(campusId: locais[_currentIndex]['campusId'])),
+//             );
+//           },
+//         ),
+//
+//         // botão da Localização
+//         SpeedDialChild(
+//           child: Icon(Icons.map_outlined, color: Colors.white),
+//           backgroundColor: Color(0xFF006B64),
+//           label: "Localização",
+//           labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
+//           labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+//           onTap: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => LocalizationScreen()),
+//             );
+//           },
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 import '../services/auth_service.dart';
 import 'login_screen.dart';
 import 'chat_screen.dart';
 import 'ar_screen.dart';
 import '360_screen.dart';
-import 'teste.dart';
+import 'localization_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -259,76 +520,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthService _authService = AuthService();
-  late GoogleMapController _mapController;
-
-  final List<Map<String, dynamic>> locais = [
-    {
-      'campusId': '1',
-      'titulo': 'Campus Antonio Paulo Capanema de Souza',
-      'imagem': 'assets/foto_sede.jpg',
-      'posicao': LatLng(-22.433915, -42.979152),
-    },
-    {
-      'campusId': '2',
-      'titulo': 'Campus Quinta do Paraíso',
-      'imagem': 'assets/foto_fazenda.jpg',
-      'posicao': LatLng(-22.393867, -42.959523),
-    },
-    {
-      'campusId': '3',
-      'titulo': 'Centro Cultural Feso Pro Arte',
-      'imagem': 'assets/foto_proarte.jpg',
-      'posicao': LatLng(-22.440599, -42.978091),
-    },
-  ];
-
-  int _currentIndex = 0;
-  Set<Marker> _markers = {};
-
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-    _atualizarMapa();
-  }
-
-  void _atualizarMapa() {
-    final local = locais[_currentIndex];
-
-    _mapController.animateCamera(
-      CameraUpdate.newLatLng(local['posicao']),
-    );
-
-    setState(() {
-      _markers = {
-        Marker(
-          markerId: MarkerId("local"),
-          position: local['posicao'],
-          infoWindow: InfoWindow(
-            title: local['titulo'],
-            snippet: "Clique para ver o tour 360º",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TourScreen(campusId: locais[_currentIndex]['campusId']),
-                ),
-              );
-            },
-          ),
-        ),
-      };
-    });
-
-    Future.delayed(Duration(milliseconds: 500), () {
-      _mapController.showMarkerInfoWindow(MarkerId("local"));
-    });
-  }
-
-  void _onCarouselChanged(int index, CarouselPageChangedReason reason) {
-    setState(() {
-      _currentIndex = index;
-    });
-    _atualizarMapa();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -354,102 +545,43 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // MAPA
-          Container(
-            height: MediaQuery.of(context).size.height * 0.56,
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: locais[0]['posicao'],
-                zoom: 17.5,
-              ),
-              markers: _markers,
-            ),
-          ),
 
-          // CARROSSEL PRINCIPAL
-          SizedBox(
-            height: 220, // Ajuste esse valor para subir ou descer
-            child: CarouselSlider.builder(
-              itemCount: locais.length,
-              itemBuilder: (context, index, realIdx) {
-                final local = locais[index];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      local['titulo'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        local['imagem'],
-                        height: 150,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                );
-              },
-              options: CarouselOptions(
-                enlargeCenterPage: true,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 15),
-                onPageChanged: _onCarouselChanged,
-              ),
-            ),
-          )
-
-        ],
+      // WebView como corpo principal
+      body: WebView(
+        initialUrl: 'https://www.unifeso.edu.br',
+        javascriptMode: JavascriptMode.unrestricted,
       ),
+
       floatingActionButton: _buildSpeedDial(),
     );
   }
 
-  // Método para criar o menu flutuante com SpeedDial
   Widget _buildSpeedDial() {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(color: Colors.white, size: 30),
       backgroundColor: Color(0xFF006B64),
       foregroundColor: Colors.white,
-      closeManually: false, // Garante que o botão fecha sozinho
       children: [
-
-        //botão de realidade aumentada
         SpeedDialChild(
           child: Icon(Icons.view_in_ar, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
           label: "Realidade Aumentada",
-          // label: "Menu Teste",
           labelStyle: TextStyle(fontSize: 14, color: Colors.white),
           labelBackgroundColor: Color(0xFF006B64),
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ARScreen()),
-              // MaterialPageRoute(builder: (context) => MenuTeste()),
             );
           },
         ),
-
-        // botão de chatbot com IA
         SpeedDialChild(
           child: Icon(Icons.chat, color: Colors.white),
           backgroundColor: Color(0xFF006B64),
           label: "Connect Chat",
-          labelStyle: TextStyle(fontSize: 14, color: Colors.white), // Texto branco
-          labelBackgroundColor: Color(0xFF006B64), // Fundo da label
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+          labelBackgroundColor: Color(0xFF006B64),
           onTap: () {
             Navigator.push(
               context,
@@ -457,27 +589,37 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-
-        // botão do Tour 360
-        // SpeedDialChild(
-        //   child: Image.asset(
-        //     // 'assets/icone_360.png',
-        //     'assets/360-graus.png',
-        //     width: 30,
-        //     height: 30,
-        //     color: Colors.white, // opcional: aplica uma cor à imagem (funciona com locais monocromáticas)
-        //   ),
-        //   backgroundColor: Color(0xFF006B64),
-        //   label: "Tour 360º",
-        //   labelStyle: TextStyle(fontSize: 14, color: Colors.white),
-        //   labelBackgroundColor: Color(0xFF006B64),
-        //   onTap: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => TourScreen()),
-        //     );
-        //   },
-        // ),
+        SpeedDialChild(
+          child: Image.asset(
+            'assets/360-graus.png',
+            width: 30,
+            height: 30,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xFF006B64),
+          label: "Tour 360º",
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+          labelBackgroundColor: Color(0xFF006B64),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TourScreen(campusId: '1')),
+            );
+          },
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.map_outlined, color: Colors.white),
+          backgroundColor: Color(0xFF006B64),
+          label: "Localização",
+          labelStyle: TextStyle(fontSize: 14, color: Colors.white),
+          labelBackgroundColor: Color(0xFF006B64),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LocalizationScreen()),
+            );
+          },
+        ),
       ],
     );
   }
