@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final AuthService _authService = AuthService();
   late final WebViewController _controller;
+  int _loadingProgress = 0;
 
   @override
   void initState() {
@@ -31,6 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
     final WebViewController controller =
     WebViewController.fromPlatformCreationParams(params)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            setState(() {
+              _loadingProgress = progress;
+            });
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            setState(() {
+              _loadingProgress = 100;
+            });
+          },
+        ),
+      )
       ..loadRequest(Uri.parse('https://www.unifeso.edu.br'));
 
     if (controller.platform is AndroidWebViewController) {
@@ -54,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.exit_to_app, color: Colors.white, size: 30),
             onPressed: () async {
               await _authService.signOut();
+              if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Desconectado com sucesso!")),
               );
@@ -65,11 +82,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-
-      /// ✅ WebView como corpo principal
       body: Column(
         children: [
-          // 🔼 Barra de navegação
+          if (_loadingProgress < 100)
+            LinearProgressIndicator(
+              value: _loadingProgress / 100.0,
+              backgroundColor: Colors.grey[200],
+              color: const Color(0xFF006B64),
+              minHeight: 3,
+            ),
+          
           Container(
             color: Colors.grey[200],
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -82,10 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       _controller.goBack();
                     }
                   },
-                  icon: Icon(Icons.arrow_back),
-                  label: Text("Voltar"),
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text("Voltar"),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF006B64),
+                    backgroundColor: const Color(0xFF006B64),
                     foregroundColor: Colors.white,
                   ),
                 ),
@@ -95,25 +117,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       _controller.goForward();
                     }
                   },
-                  icon: Icon(Icons.arrow_forward),
-                  label: Text("Avançar"),
+                  icon: const Icon(Icons.arrow_forward),
+                  label: const Text("Avançar"),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF006B64),
+                    backgroundColor: const Color(0xFF006B64),
                     foregroundColor: Colors.white,
                   ),
                 ),
               ],
             ),
           ),
-
-          // 🌐 WebView expandido
           Expanded(
             child: WebViewWidget(controller: _controller),
           ),
         ],
       ),
-
-      /// ✅ Menu flutuante
       floatingActionButton: _buildSpeedDial(),
     );
   }
@@ -166,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>  TourScreen(campusId: '1'),
+                builder: (context) => const TourScreen(campusId: '1'),
               ),
             );
           },
@@ -190,5 +208,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../core/error_messages.dart';
+import '../core/app_colors.dart';
+import '../core/app_assets.dart';
+import '../widgets/custom_auth_widgets.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,26 +18,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _isLoading = false;
 
   Future<void> _register() async {
+    if (_nameController.text.trim().isEmpty || 
+        _emailController.text.trim().isEmpty || 
+        _passwordController.text.trim().isEmpty) {
+      _showAlertDialog('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    setState(() => _isLoading = true);
     try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
       await userCredential.user?.updateDisplayName(_nameController.text.trim());
 
-      _showAlertDialog('Cadastro realizado com sucesso!');
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+      if (!mounted) return;
+      _showSuccessDialog('Cadastro realizado com sucesso! Agora você pode fazer login.');
     } catch (e) {
-      _showAlertDialog('Erro ao cadastrar: $e');
+      _showAlertDialog(ErrorMessages.getFromFirebaseException(e));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("Sucesso!", style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+              child: const Text("IR PARA LOGIN", style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showAlertDialog(String message) {
@@ -41,14 +78,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Alerta"),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("Aviso"),
           content: Text(message),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Fechar"),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -59,101 +95,115 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xF5F5F5F5), // Quase branco
-      body: SingleChildScrollView(    // Permite que o conteúdo seja rolado
-        child: Column(
-          children: [
-            // Botão de voltar no topo
-            SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Align(
+      backgroundColor: AppColors.background,
+      body: Stack(
+        children: [
+          // Fundo Verde no Topo
+          Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            decoration: const BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
+          ),
+          
+          SafeArea(
+            child: Column(
+              children: [
+                // Botão de voltar customizado
+                Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Color(0xFF006B64), size: 35),
-                    onPressed: () {
-                      Navigator.pop(context); // Voltar para a tela anterior
-                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ),
-              ),
-            ),
-
-            // Formulário um pouco mais para cima
-            Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center, // Mantém o formulário no topo
-                children: [                  // Ajuste para subir mais
-                  Image.asset(
-                    'assets/cadastro.png',
-                    height: 100,
+                
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        Image.asset(AppAssets.imgCadastro, height: 100),
+                        const SizedBox(height: 30),
+                        
+                        // Card de Cadastro
+                        Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              const Text(
+                                "Crie sua Conta",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                "Junte-se à comunidade Connect Feso.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              const SizedBox(height: 30),
+                              
+                              CustomTextField(
+                                hint: "Nome Completo",
+                                controller: _nameController,
+                              ),
+                              const SizedBox(height: 15),
+                              
+                              CustomTextField(
+                                hint: "E-mail",
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              const SizedBox(height: 15),
+                              
+                              CustomTextField(
+                                hint: "Senha",
+                                controller: _passwordController,
+                                isPassword: true,
+                                obscureText: _obscurePassword,
+                                onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                              ),
+                              
+                              const SizedBox(height: 30),
+                              
+                              CustomButton(
+                                text: "CADASTRAR",
+                                onPressed: _register,
+                                isLoading: _isLoading,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 20),
-
-                  _buildTextField("Nome", _nameController),
-                  SizedBox(height: 10),
-
-                  _buildTextField("E-mail", _emailController),
-                  SizedBox(height: 10),
-
-                  _buildTextField("Senha", _passwordController),
-                  SizedBox(height: 20),
-
-                  _buildLoginButton("Cadastrar", _register),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
-
-
-
-// caixa de texto
-Widget _buildTextField(String hint, TextEditingController controller,) {
-  return TextField(
-    controller: controller,
-    decoration: InputDecoration(
-      hintText: hint,
-      filled: true,
-      fillColor: Colors.grey.shade100,
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
-        borderRadius: BorderRadius.circular(20), // Borda arredondada
-      ),
-
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
-    cursorColor: Colors.teal.shade700, // Cor do cursor piscante
-  );
-}
-
-
-// configurações do botão "Cadastrar"
-Widget _buildLoginButton(String text, VoidCallback onPressed) {
-  return ElevatedButton(
-    onPressed: onPressed,
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFF006B64),
-      minimumSize: Size(double.infinity, 50),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 16, color: Colors.white),
-    ),
-  );
 }

@@ -145,7 +145,7 @@ class _LocalizationScreen extends State<LocalizationScreen> {
               options: CarouselOptions(
                 enlargeCenterPage: true,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 15),
+                autoPlayInterval: Duration(seconds: 5),
                 onPageChanged: _onCarouselChanged,
               ),
             ),

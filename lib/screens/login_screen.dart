@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../core/error_messages.dart';
+import '../core/app_colors.dart';
+import '../core/app_assets.dart';
+import '../widgets/custom_auth_widgets.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 import 'resetpass_screen.dart';
@@ -18,39 +22,44 @@ class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true; // Para alternar a visibilidade da senha
+  bool _obscurePassword = true;
+  bool _isLoading = false;
 
   Future<void> _loginWithEmail() async {
-    try {
-      if (_emailController.text.trim().isEmpty ||
-          _passwordController.text.trim().isEmpty) {
-        _showAlertDialog('Por favor, preencha todos os campos.');
-        return;
-      }
+    if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
+      _showAlertDialog('Por favor, preencha todos os campos.');
+      return;
+    }
 
+    setState(() => _isLoading = true);
+    try {
       await _auth.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      _showAlertDialog('Login bem-sucedido!');
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
-      // _showAlertDialog('Erro ao fazer login!');
-      _showAlertDialog('Erro ao fazer login: $e'); //informa qual erro
+      _showAlertDialog(ErrorMessages.getFromFirebaseException(e));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   Future<void> _loginWithGoogle() async {
+    setState(() => _isLoading = true);
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-      if (googleAuth == null) return;
+      if (googleAuth == null) {
+        setState(() => _isLoading = false);
+        return;
+      }
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -58,15 +67,16 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       await _auth.signInWithCredential(credential);
-      _showAlertDialog('Login com Google bem-sucedido!');
-
+      
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } catch (e) {
-      // _showAlertDialog('Erro ao fazer login com Google!');
-      _showAlertDialog('Erro ao fazer login com Google: $e'); // informa qual erro
+      _showAlertDialog(ErrorMessages.getFromFirebaseException(e));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -75,14 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Alerta"),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("Aviso"),
           content: Text(message),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Fechar"),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK", style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
             ),
           ],
         );
@@ -90,180 +99,165 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xF5F5F5F5),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Logo
-              Image.asset(
-                'assets/connectfeso.png',
-                height: 50,
+      backgroundColor: AppColors.background,
+      body: Stack(
+        children: [
+          // Fundo Verde no Topo
+          Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            decoration: const BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
               ),
-              SizedBox(height: 10),
-
-              // Campo de e-mail
-              _buildTextField("E-mail", _emailController),
-              SizedBox(height: 10),
-
-              // Campo de senha
-              _buildTextField(
-                "Senha",
-                _passwordController,
-                isPassword: true,
-              ),
-              SizedBox(height: 0),
-
-              // Esqueceu a senha
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ResetPassScreen()),
-                    );
-                  },
-                  child: Text(
-                    "Esqueceu a senha?",
-                    style: TextStyle(color: Color(0xFF006B64)),
-                  ),
-                ),
-              ),
-              SizedBox(height: 0),
-
-              // Botão de Login
-              _buildLoginButton("Entrar", _loginWithEmail),
-              SizedBox(height: 10),
-
-              // Cadastro
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ),
+          
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
                 children: [
-                  Text("Não tem uma conta? "),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterScreen()),
-                      );
-                    },
-                    child: Text(
-                      "Cadastre-se",
-                      style: TextStyle(
-                          color: Color(0xFF006B64),
-                          fontWeight: FontWeight.bold),
+                  const SizedBox(height: 60),
+                  // Logo Branca
+                  Image.asset(
+                    AppAssets.logoConnectFesoBranco,
+                    height: 80,
+                  ),
+                  const SizedBox(height: 40),
+                  
+                  // Cartão do Formulário
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Bem-vindo!",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Faça login para continuar sua jornada no UNIFESO.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                        const SizedBox(height: 30),
+                        
+                        CustomTextField(
+                          hint: "E-mail",
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 15),
+                        
+                        CustomTextField(
+                          hint: "Senha",
+                          controller: _passwordController,
+                          isPassword: true,
+                          obscureText: _obscurePassword,
+                          onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                        ),
+                        
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ResetPassScreen()),
+                              );
+                            },
+                            child: const Text(
+                              "Esqueceu a senha?",
+                              style: TextStyle(color: AppColors.primary),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        
+                        CustomButton(
+                          text: "ENTRAR",
+                          onPressed: _loginWithEmail,
+                          isLoading: _isLoading,
+                        ),
+                        const SizedBox(height: 20),
+                        
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Não tem uma conta? "),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                                );
+                              },
+                              child: const Text(
+                                "Cadastre-se",
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
+                  
+                  const SizedBox(height: 30),
+                  const Text("OU", style: TextStyle(color: Colors.black38, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 20),
+                  
+                  // Botão do Google Moderno
+                  OutlinedButton(
+                    onPressed: _loginWithGoogle,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 55),
+                      side: BorderSide(color: Colors.grey.shade300),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(AppAssets.imgGoogleLogo, height: 24),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Entrar com Google',
+                          style: TextStyle(color: Colors.black87, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 40),
                 ],
               ),
-              SizedBox(height: 10),
-
-              // Login com Google
-              _buildGoogleLoginButton(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-  // caixa de texto
-  Widget _buildTextField(String hint, TextEditingController controller,
-      {bool isPassword = false}) {
-    return TextField(
-      controller: controller,
-      obscureText: isPassword ? _obscurePassword : false,
-      decoration: InputDecoration(
-        hintText: hint,
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando não está focado
-          borderRadius: BorderRadius.circular(20), // Borda arredondada
-        ),
-
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.teal.shade700, width: 2), // Borda quando focado
-          borderRadius: BorderRadius.circular(20),
-        ),
-
-        suffixIcon: isPassword
-            ? IconButton(
-          icon: Icon(
-            _obscurePassword ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey,
-          ),
-          onPressed: () {
-            setState(() {
-              _obscurePassword = !_obscurePassword;
-            });
-          },
-        )
-            : null,
-      ),
-      style: TextStyle(color: Colors.teal.shade900), // Cor do texto digitado
-      cursorColor: Colors.teal.shade700, // Cor do cursor piscante
-    );
-  }
-
-  // botão verde
-  Widget _buildLoginButton(String text, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xFF006B64),
-        minimumSize: Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 16, color: Colors.white),
-      ),
-    );
-  }
-
-
-  // botão do google
-  Widget _buildGoogleLoginButton() {
-    return ElevatedButton(
-      onPressed: _loginWithGoogle,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        elevation: 2,
-        minimumSize: Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.grey.shade400),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/google.svg',
-            height: 24,
-            width: 24,
-          ),
-          SizedBox(width: 10),
-          Text(
-            'Entrar com Google',
-            style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       ),
     );
   }
 }
-

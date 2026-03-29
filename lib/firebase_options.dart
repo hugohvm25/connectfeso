@@ -3,6 +3,8 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,16 +51,34 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBfrzsozbSHUSP1ZTJY2D_8T78IHTaqkc8',
+  // static const FirebaseOptions android = FirebaseOptions(
+  //   apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
+  //   appId: '1:261992274173:android:75d44665a95fc4c06f4694',
+  //   messagingSenderId: '261992274173',
+  //   projectId: 'connectfeso',
+  //   storageBucket: 'connectfeso.firebasestorage.app',
+  // );
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
     appId: '1:261992274173:android:75d44665a95fc4c06f4694',
     messagingSenderId: '261992274173',
     projectId: 'connectfeso',
     storageBucket: 'connectfeso.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAvAZQjHkTFMNXSoF0F7xYc5tAajKunOL0',
+  // static const FirebaseOptions ios = FirebaseOptions(
+  //   apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
+  //   appId: '1:261992274173:ios:e7e5c64e9e4e75656f4694',
+  //   messagingSenderId: '261992274173',
+  //   projectId: 'connectfeso',
+  //   storageBucket: 'connectfeso.firebasestorage.app',
+  //   androidClientId: '261992274173-n7nna677n7k81avjsp1bg73k80n0gvks.apps.googleusercontent.com',
+  //   iosClientId: '261992274173-2r4hr4648ck5kogoet6f5pvicv3pj8nq.apps.googleusercontent.com',
+  //   iosBundleId: 'com.example.connectfeso',
+  // );
+
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
     appId: '1:261992274173:ios:e7e5c64e9e4e75656f4694',
     messagingSenderId: '261992274173',
     projectId: 'connectfeso',
@@ -67,5 +87,4 @@ class DefaultFirebaseOptions {
     iosClientId: '261992274173-2r4hr4648ck5kogoet6f5pvicv3pj8nq.apps.googleusercontent.com',
     iosBundleId: 'com.example.connectfeso',
   );
-
 }
