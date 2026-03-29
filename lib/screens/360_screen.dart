@@ -45,14 +45,14 @@ class _TourScreenState extends State<TourScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        backgroundColor: Color(0xFF006B64),
+        backgroundColor: const Color(0xFF006B64),
         title: Image.asset(
           "assets/tour_360_branco_sem_fundo.png",
           height: 40,
         ),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Stack(
         children: [
@@ -72,15 +72,15 @@ class _TourScreenState extends State<TourScreen> {
               height: 80,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 55),
+                padding: const EdgeInsets.symmetric(horizontal: 55),
                 child: Row(
                   children: [
                     _buildCampusIcon("1", 'assets/foto_sede.jpg'),
-                    SizedBox(width: 30),
+                    const SizedBox(width: 30),
                     _buildCampusIcon("2", 'assets/foto_fazenda.jpg'),
-                    SizedBox(width: 30),
+                    const SizedBox(width: 30),
                     _buildCampusIcon("3", 'assets/foto_proarte.jpg'),
-                    SizedBox(width: 30),
+                    const SizedBox(width: 30),
                   ],
                 ),
               ),
@@ -88,23 +88,23 @@ class _TourScreenState extends State<TourScreen> {
           ),
 
           // Botão próximo
-          if (_index < images.length - 1)
+          if (images.length > 1)
             Positioned(
               bottom: 30,
               right: 20,
               child: IconButton(
-                icon: Icon(Icons.arrow_circle_right, size: 60, color: Color(0xFF006B64)),
+                icon: const Icon(Icons.arrow_circle_right, size: 60, color: Color(0xFF006B64)),
                 onPressed: _goToNextImage,
               ),
             ),
 
           // Botão anterior
-          if (_index > 0)
+          if (images.length > 1)
             Positioned(
               bottom: 30,
               left: 20,
               child: IconButton(
-                icon: Icon(Icons.arrow_circle_left, size: 60, color: Color(0xFF006B64)),
+                icon: const Icon(Icons.arrow_circle_left, size: 60, color: Color(0xFF006B64)),
                 onPressed: _goToPreviousImage,
               ),
             ),
@@ -124,7 +124,7 @@ class _TourScreenState extends State<TourScreen> {
             ? Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: Color(0xFF006B64), width: 5),
+            border: Border.all(color: const Color(0xFF006B64), width: 5),
           ),
         )
             : null,
@@ -136,25 +136,24 @@ class _TourScreenState extends State<TourScreen> {
     switch (id) {
       case '1':
         return [
-          AssetImage('assets/360/sede/sede_fachada.jpg'),
-          AssetImage('assets/360/sede/patio_sede_relogio.jpg'),
-          AssetImage('assets/360/sede/patio_sede.jpg'),
-          AssetImage('assets/360/sede/sede_casarao.jpg'),
+          const AssetImage('assets/360/sede/sede_fachada.jpg'),
+          const AssetImage('assets/360/sede/patio_sede_relogio.jpg'),
+          const AssetImage('assets/360/sede/patio_sede.jpg'),
+          const AssetImage('assets/360/sede/sede_casarao.jpg'),
         ];
-      case '2':
+      case '2': // Quinta do Paraíso (Fazenda)
         return [
-          AssetImage('assets/360/quinta_paraiso/teste1.jpg'),
-          AssetImage('assets/360/quinta_paraiso/teste2.jpg'),
+          const AssetImage('assets/360/quinta_paraiso/fazenda_fachada.jpg'),
+          const AssetImage('assets/360/quinta_paraiso/fazenda_alice.jpg'),
+          const AssetImage('assets/360/quinta_paraiso/fazenda_quadra.jpg'),
         ];
       case '3':
         return [
-          AssetImage('assets/360/proarte/proarte.jpg'),
-          AssetImage('assets/360/proarte/teste1.jpg'),
+          const AssetImage('assets/360/proarte/proarte.jpg'),
+          const AssetImage('assets/360/proarte/teste1.jpg'),
         ];
       default:
-        return [AssetImage('assets/360/default.jpg')];
+        return [const AssetImage('assets/360/default.jpg')];
     }
   }
 }
-
-

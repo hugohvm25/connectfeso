@@ -4,7 +4,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../services/auth_service.dart';
-import 'login_screen.dart';
+import 'auth_screen.dart'; // Atualizado para AuthScreen
 import 'chat_screen.dart';
 import 'ar_screen.dart';
 import '360_screen.dart';
@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final AuthService _authService = AuthService();
   late final WebViewController _controller;
   int _loadingProgress = 0;
+  final String _initialUrl = 'https://www.unifeso.edu.br';
 
   @override
   void initState() {
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://www.unifeso.edu.br'));
+      ..loadRequest(Uri.parse(_initialUrl));
 
     if (controller.platform is AndroidWebViewController) {
       (controller.platform as AndroidWebViewController)
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                MaterialPageRoute(builder: (context) => const AuthScreen()),
               );
             },
           ),
@@ -96,33 +97,35 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.grey[200],
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Espaçamento igual entre os 3
               children: [
-                ElevatedButton.icon(
+                // Botão Voltar
+                _buildNavButton(
+                  icon: Icons.arrow_back,
                   onPressed: () async {
                     if (await _controller.canGoBack()) {
                       _controller.goBack();
                     }
                   },
-                  icon: const Icon(Icons.arrow_back),
-                  label: const Text("Voltar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF006B64),
-                    foregroundColor: Colors.white,
-                  ),
                 ),
-                ElevatedButton.icon(
+                
+                // Botão Home (Casinha)
+                _buildNavButton(
+                  icon: Icons.home,
+                  isHome: true,
+                  onPressed: () {
+                    _controller.loadRequest(Uri.parse(_initialUrl));
+                  },
+                ),
+                
+                // Botão Avançar
+                _buildNavButton(
+                  icon: Icons.arrow_forward,
                   onPressed: () async {
                     if (await _controller.canGoForward()) {
                       _controller.goForward();
                     }
                   },
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text("Avançar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF006B64),
-                    foregroundColor: Colors.white,
-                  ),
                 ),
               ],
             ),
@@ -133,6 +136,27 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: _buildSpeedDial(),
+    );
+  }
+
+  // Widget auxiliar para criar os botões redondos de navegação
+  Widget _buildNavButton({required IconData icon, required VoidCallback onPressed, bool isHome = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF006B64),
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white, size: isHome ? 28 : 24),
+        onPressed: onPressed,
+      ),
     );
   }
 
