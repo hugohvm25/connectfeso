@@ -16,7 +16,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _addBotMessage(String text) {
     setState(() {
-      _messages.add({"sender": "bot", "text": text});
+      _messages.add({"role": "bot", "text": text});
     });
   }
 

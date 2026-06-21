@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         useMaterial3: true,
       ),
-      home: SplashScreen(), // Removido o 'const' que causava o erro
+      home: const SplashScreen(),
     );
   }
 }

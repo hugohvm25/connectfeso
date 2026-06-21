@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.connectfeso"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = 35 // Atualizado para 35 para acompanhar o compileSdk
         versionCode = 1
         versionName = "1.0"
